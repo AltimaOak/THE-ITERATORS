@@ -61,8 +61,8 @@ export function ProcessFlow() {
   const connectorVariants = {
     hidden: { scaleX: 0 },
     visible: { 
-      scaleX: 1, 
-      transition: { duration: 0.8, ease: "easeInOut" } 
+      scaleX: 1,
+      transition: { duration: 0.8 } 
     }
   };
 
