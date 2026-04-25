@@ -54,7 +54,7 @@ export function ProcessFlow() {
       opacity: 1, 
       y: 0, 
       scale: 1,
-      transition: { duration: 0.6, ease: "circOut" }
+      transition: { duration: 0.6 }
     }
   };
 

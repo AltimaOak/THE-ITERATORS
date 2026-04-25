@@ -11,8 +11,7 @@ const particleVariants = {
     opacity: [0, 1, 0],
     transition: {
       duration: 1.5,
-      repeat: Infinity,
-      ease: "linear"
+      repeat: Infinity
     }
   }
 };
@@ -23,7 +22,7 @@ const nodeVariants = {
     opacity: 1,
     scale: 1,
     y: 0,
-    transition: { delay: i * 0.2, duration: 0.8, ease: "circOut" }
+    transition: { delay: i * 0.2, duration: 0.8 }
   }),
   hover: { 
     y: -5,
@@ -86,7 +85,7 @@ export default function HeroVisualization() {
               <motion.div 
                 className={styles.orbit}
                 animate={{ rotate: 360 }}
-                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                transition={{ duration: 4, repeat: Infinity }}
               />
               <Cpu size={32} />
             </div>
@@ -147,7 +146,7 @@ export default function HeroVisualization() {
       <motion.div 
         className={styles.floatingTag}
         animate={{ y: [0, -10, 0] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 4, repeat: Infinity }}
         style={{ top: '20%', left: '10%' }}
       >
         <Check size={12} /> Adaptive
@@ -155,7 +154,7 @@ export default function HeroVisualization() {
       <motion.div 
         className={styles.floatingTag}
         animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        transition={{ duration: 5, repeat: Infinity, delay: 1 }}
         style={{ bottom: '20%', right: '10%' }}
       >
         <Zap size={12} /> Fast
