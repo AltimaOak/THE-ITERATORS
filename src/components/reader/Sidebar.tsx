@@ -6,7 +6,7 @@ import styles from './Sidebar.module.css';
 import { Settings, Save, Trash2, Clock, Play, Pause, RotateCcw, Target, Sparkles, BookOpen, Type, Palette, List } from 'lucide-react';
 
 export default function Sidebar() {
-  const { settings, updateSetting, presets, savePreset, deletePreset } = useTypography();
+  const { settings, updateSetting, presets, savePreset, loadPreset } = useTypography();
   const [presetName, setPresetName] = useState("");
   
   // Pomodoro State
