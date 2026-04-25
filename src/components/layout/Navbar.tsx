@@ -3,8 +3,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Settings, User, LayoutDashboard, Sparkles } from 'lucide-react';
+import { Sparkles, ArrowRight } from 'lucide-react';
 import styles from './Navbar.module.css';
+import LucidaLogo from './LucidaLogo';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -15,27 +16,29 @@ export default function Navbar() {
       <div className={styles.container}>
         <Link href="/" className={styles.logo}>
           <div className={styles.logoIcon}>
-            <div className={styles.iconCore} />
-            <div className={styles.iconRing} />
+            <LucidaLogo />
           </div>
-          <span className={styles.logoText}>Lucida</span>
+          <span className={styles.logoText}>Lucida X</span>
         </Link>
 
         <div className={styles.navLinks}>
-          <Link href="/" className={pathname === '/' ? styles.active : ''}>Home</Link>
-          <Link href="/app" className={isApp ? styles.active : ''}>Reader</Link>
-          <Link href="/app/settings" className={pathname === '/app/settings' ? styles.active : ''}>Settings</Link>
+          <Link href="/" className={pathname === '/' ? styles.active : ''}>Overview</Link>
+          <Link href="/app" className={isApp ? styles.active : ''}>Workspace</Link>
+          <Link href="#features">Capabilities</Link>
         </div>
 
         <div className={styles.actions}>
           {isApp ? (
-            <div className={styles.userProfile}>
-              <div className={styles.avatar}>A</div>
+            <div className={styles.appProfile}>
+              <div className={styles.statusDot} />
+              <span>Live Workspace</span>
             </div>
           ) : (
             <>
-              <Link href="/login" className={styles.loginBtn}>Login</Link>
-              <Link href="/signup" className={styles.signupBtn}>Start Free</Link>
+              <Link href="/login" className={styles.loginLink}>Login</Link>
+              <Link href="/app" className={styles.launchBtn}>
+                Launch App <ArrowRight size={16} />
+              </Link>
             </>
           )}
         </div>

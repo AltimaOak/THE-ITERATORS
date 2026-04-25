@@ -1,38 +1,109 @@
+.hero {
+  min-height: calc(100vh - 80px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 4rem;
+  padding: 0 4rem;
+  background-color: white;
+}
+
+.heroContent {
+  max-width: 600px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 20px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.heroContent h1 {
+  font-size: 5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--foreground);
+  margin-bottom: 2rem;
+  letter-spacing: -0.05em;
+}
+
+.heroContent p {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: #64748b;
+  margin-bottom: 3rem;
+}
+
+.heroBtns {
+  display: flex;
+  gap: 1rem;
+}
+
+.primaryBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2.5rem;
+  background-color: var(--foreground);
+  color: white;
+  border-radius: 30px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+
+.primaryBtn:hover {
+  transform: translateY(-2px);
+}
+
+.secondaryBtn {
+  padding: 1rem 2.5rem;
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  font-weight: 700;
+  color: var(--foreground);
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.secondaryBtn:hover {
+  background-color: #f5f5f7;
+}
+
+.heroImage {
+  width: 100%;
+}
+
+/* Features */
 .features {
-  padding: 120px 4rem;
-  background: white;
+  padding: 120px 2rem;
+  background-color: white;
 }
 
 .sectionHeader {
   text-align: center;
-  max-width: 800px;
+  max-width: 700px;
   margin: 0 auto 80px;
 }
 
-.sectionBadge {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background: #f8fafc;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  font-size: 0.75rem;
-  font-weight: 800;
-  color: var(--accent-sky);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 1.5rem;
-}
-
 .sectionHeader h2 {
-  font-size: 4rem;
-  font-weight: 800;
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: var(--foreground);
   margin-bottom: 1.5rem;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.05em;
 }
 
 .sectionHeader p {
   font-size: 1.25rem;
-  color: var(--secondary);
+  color: #64748b;
   line-height: 1.6;
 }
 
@@ -40,62 +111,69 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
-  max-width: 1300px;
+  max-width: 1200px;
   margin: 0 auto;
-}
-
-.featureCardWrapper {
-  width: 100%;
 }
 
 .featureCard {
   background: white;
   padding: 3rem;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border);
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  box-shadow: var(--shadow-raised);
+  border-radius: 32px;
+  border: 1px solid #f1f5f9;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.featureCard:hover {
+  transform: translateY(-8px);
+  border-color: var(--accent);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.03);
 }
 
 .featureIcon {
-  width: 64px;
-  height: 64px;
-  border-radius: 18px;
+  width: 52px;
+  height: 52px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 1.5rem;
 }
 
 .featureCard h3 {
   font-size: 1.5rem;
-  font-weight: 800;
+  font-weight: 700;
+  margin-bottom: 1rem;
 }
 
 .featureCard p {
-  font-size: 1rem;
+  color: #64748b;
   line-height: 1.7;
-  color: var(--secondary);
 }
 
 /* How It Works */
 .howItWorks {
-  padding: 120px 4rem;
-  background: #fcfcfd;
+  padding: 120px 2rem;
+  background-color: #fbfbfd;
 }
 
 .stepGrid {
-  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
 }
 
 .stepsWrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 3rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  width: 100%;
+  position: relative;
+  z-index: 2;
 }
 
 .stepConnector {
@@ -104,21 +182,22 @@
   left: 10%;
   width: 80%;
   height: 2px;
-  background: repeating-linear-gradient(to right, var(--border) 0, var(--border) 10px, transparent 10px, transparent 20px);
-  z-index: 0;
+  background: repeating-linear-gradient(to right, #e2e8f0 0, #e2e8f0 10px, transparent 10px, transparent 20px);
+  z-index: 1;
 }
 
 .stepCard {
+  flex: 1;
   text-align: center;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .stepNumber {
   width: 80px;
   height: 80px;
   background: white;
-  border: 2px solid var(--border);
+  border: 1px solid #e2e8f0;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -126,123 +205,135 @@
   margin: 0 auto 2rem;
   font-size: 1.5rem;
   font-weight: 800;
-  color: var(--accent-sky);
-  box-shadow: var(--shadow-raised);
+  color: var(--accent);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.02);
 }
 
 /* Roadmap */
 .roadmap {
-  padding: 120px 4rem;
-  background: white;
+  padding: 120px 2rem;
+  background-color: white;
 }
 
 .roadmapGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
-  max-width: 1300px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
 .roadmapCard {
-  padding: 3rem;
+  padding: 2.5rem;
   background: #f8fafc;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border);
+  border-radius: 24px;
+  border: 1px solid #f1f5f9;
 }
 
 .status {
   display: inline-block;
-  padding: 0.4rem 1rem;
+  padding: 0.25rem 0.75rem;
   background: white;
-  border-radius: var(--radius-pill);
+  border-radius: 12px;
   font-size: 0.75rem;
-  font-weight: 800;
-  color: var(--accent-coral);
-  margin-bottom: 2rem;
-  border: 1px solid rgba(251, 113, 129, 0.2);
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  border: 1px solid #e2e8f0;
 }
 
 .roadmapIcon {
-  margin-bottom: 2rem;
-  color: var(--primary);
+  margin-bottom: 1.5rem;
+  color: var(--foreground);
 }
 
 /* CTA */
 .ctaCards {
   padding: 120px 4rem;
+  background-color: white;
 }
 
 .ctaGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  max-width: 1300px;
+  gap: 2.5rem;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
 .ctaLink {
   text-decoration: none;
+  color: inherit;
+  display: block;
 }
 
 .card {
-  padding: 4rem;
-  border-radius: var(--radius-xl);
+  padding: 3.5rem;
+  border-radius: 40px;
   height: 100%;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  transition: box-shadow 0.4s ease;
 }
 
 .primaryCard {
-  background: var(--primary);
+  background: #0f172a;
   color: white;
-  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.3);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.1);
 }
 
 .secondaryCard {
   background: #f8fafc;
-  border: 1px solid var(--border);
+  border: 1px solid #f1f5f9;
+  color: #0f172a;
 }
 
 .cardIcon {
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent-mint);
+  color: var(--accent);
 }
 
 .secondaryCard .cardIcon {
-  background: var(--accent-sky)11;
-  color: var(--accent-sky);
+  background: var(--accent-soft);
 }
 
 .cardContent h3 {
   font-size: 2.5rem;
-  font-weight: 800;
+  font-weight: 900;
+  margin-bottom: 1rem;
   letter-spacing: -0.04em;
+}
+
+.cardContent p {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  opacity: 0.8;
+  margin-bottom: 2.5rem;
 }
 
 .cardAction {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  font-weight: 800;
-  color: var(--accent-mint);
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: var(--accent);
 }
 
 .footer {
-  padding: 6rem 4rem;
-  background: #f8fafc;
+  padding: 4rem 2rem;
   border-top: 1px solid var(--border);
 }
 
 .footerContent {
-  max-width: 1300px;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -250,19 +341,31 @@
 }
 
 @media (max-width: 1024px) {
-  .features, .howItWorks, .roadmap, .ctaCards {
-    padding: 80px 2rem;
-  }
-  .sectionHeader h2 {
-    font-size: 2.5rem;
-  }
-  .stepsWrapper {
+  .hero {
     grid-template-columns: 1fr;
+    padding: 80px 2rem;
+    text-align: center;
+  }
+  .heroContent {
+    margin: 0 auto;
+  }
+  .heroBtns {
+    justify-content: center;
+  }
+  .heroContent h1 {
+    font-size: 3.5rem;
+  }
+  .stepGrid, .stepsWrapper {
+    flex-direction: column;
+    gap: 4rem;
   }
   .stepConnector {
     display: none;
   }
   .ctaGrid {
     grid-template-columns: 1fr;
+  }
+  .ctaCards {
+    padding: 80px 2rem;
   }
 }
