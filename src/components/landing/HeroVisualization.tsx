@@ -23,7 +23,7 @@ const nodeVariants = {
     opacity: 1,
     scale: 1,
     y: 0,
-    transition: { delay: i * 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+    transition: { delay: i * 0.2, duration: 0.8, ease: "circOut" }
   }),
   hover: { 
     y: -5,
