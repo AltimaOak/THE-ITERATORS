@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useTypography } from '@/context/TypographyContext';
 import { useHighlightEngine } from '@/hooks/useHighlightEngine';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
