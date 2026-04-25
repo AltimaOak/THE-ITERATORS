@@ -31,7 +31,7 @@ export function Hero() {
         className={styles.heroContent}
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        transition={{ duration: 0.8 }}
       >
         <span className={styles.badge}>Adaptive Reading System</span>
         <h1>Read Smarter.<br />Not Harder.</h1>
