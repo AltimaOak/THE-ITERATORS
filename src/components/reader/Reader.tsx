@@ -301,7 +301,7 @@ export default function Reader() {
                 {aiData.visual.nodes.map((n, i) => (
                   <React.Fragment key={n.id}>
                     <div className={styles.nodeCard}>{n.text}</div>
-                    {i < aiData.visual.nodes.length - 1 && <div className={styles.connector}><ChevronRight /></div>}
+                    {i < (aiData.visual?.nodes.length || 0) - 1 && <div className={styles.connector}><ChevronRight /></div>}
                   </React.Fragment>
                 ))}
               </div>
