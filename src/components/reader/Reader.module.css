@@ -1,0 +1,218 @@
+.container {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  height: calc(100vh - 64px); /* Adjusted for a thinner navbar */
+  background-color: #f8fafc;
+  overflow: hidden;
+}
+
+.inputPane {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  border-right: 1px solid #e2e8f0;
+  z-index: 10;
+}
+
+.displayPane {
+  background-color: #f8fafc;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 2rem;
+  position: relative;
+}
+
+.centeredColumn {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.paneHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.paperTexture {
+  position: relative;
+  background-color: #ffffff;
+  padding: 3.5rem !important;
+  border-radius: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.03);
+  border: 1px solid #e2e8f0;
+  min-height: 600px;
+}
+
+.miniToolbar {
+  position: fixed;
+  background: #1e293b;
+  padding: 6px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 1000;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transform: translateX(-50%);
+}
+
+.miniToolbar button {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f1f5f9;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.miniToolbar button:hover {
+  background: rgba(255,255,255,0.1);
+  color: var(--accent);
+}
+
+.divider {
+  width: 1px;
+  height: 18px;
+  background: rgba(255,255,255,0.1);
+  margin: 0 4px;
+}
+
+.viewTabs {
+  display: flex;
+  gap: 0.25rem;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 14px;
+}
+
+.viewTabs button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem;
+  border-radius: 10px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #64748b;
+  transition: all 0.2s;
+}
+
+.viewTabs button.activeTab {
+  background: white;
+  color: var(--accent);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.textarea {
+  flex: 1;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 1.25rem;
+  font-family: var(--font-inter);
+  font-size: 0.9375rem;
+  resize: none;
+  outline: none;
+  background-color: #f8fafc;
+  margin-bottom: 1.5rem;
+}
+
+.textarea:focus {
+  background-color: #ffffff;
+  border-color: var(--accent);
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.controlBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s;
+}
+
+.controlBtn:hover, .controlBtn.active, .controlBtn.shareActive {
+  border-color: var(--accent);
+  color: var(--accent);
+  background-color: #f0f7ff;
+}
+
+.aiBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #0f172a;
+  color: white;
+  padding: 0 1.25rem;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.aiLoading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem;
+  text-align: center;
+  color: #64748b;
+  gap: 1.5rem;
+}
+
+.outputView, .explainView {
+  padding: 2.5rem;
+  background: white;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 2rem;
+  color: #94a3b8;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.placeholder p {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+}

@@ -1,40 +1,64 @@
+@import url('https://fonts.cdnfonts.com/css/open-dyslexic');
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&display=swap');
+
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1d1d1f;
+  --accent: #0071e3;
+  --accent-soft: rgba(0, 113, 227, 0.1);
+  --border: #d2d2d7;
+  --card-bg: #ffffff;
+  --sidebar-bg: #f5f5f7;
+  --sidebar-text: #1d1d1f;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.05);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.08);
+  --shadow-xl: 0 20px 48px rgba(0,0,0,0.12);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+  
+  /* Typography Variables */
+  --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-dyslexic: 'Open-Dyslexic', sans-serif;
+  --font-lexend: 'Lexend', sans-serif;
+  
+  --current-font: var(--font-inter);
+  --letter-spacing: 0px;
+  --word-spacing: 0px;
+  --line-height: 1.6;
+  --paragraph-spacing: 2em;
+  
+  /* Theme Colors */
+  --theme-cream-bg: #fdfaf0;
+  --theme-blue-bg: #f0f7ff;
+  --theme-yellow-bg: #fffdeb;
+  --theme-mint-bg: #f2fff9;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+[data-theme='cream'] { --background: var(--theme-cream-bg); --card-bg: var(--theme-cream-bg); }
+[data-theme='blue'] { --background: var(--theme-blue-bg); --card-bg: var(--theme-blue-bg); }
+[data-theme='yellow'] { --background: var(--theme-yellow-bg); --card-bg: var(--theme-yellow-bg); }
+[data-theme='mint'] { --background: var(--theme-mint-bg); --card-bg: var(--theme-mint-bg); }
 
-html {
-  height: 100%;
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-}
-
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
+  background-color: var(--background);
   color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 
 a {
@@ -42,8 +66,71 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  background: var(--border);
+  border-radius: 5px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Reader Specific Styles */
+.reader-content {
+  font-family: var(--current-font);
+  letter-spacing: var(--letter-spacing);
+  line-height: var(--line-height);
+}
+
+.reader-word {
+  display: inline-block;
+  margin-right: calc(0.25em + var(--word-spacing));
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  padding: 0 2px;
+  border-radius: 4px;
+}
+
+.reader-word.active {
+  background-color: var(--accent);
+  color: white;
+  transform: scale(1.05);
+}
+
+.reader-word.dimmed {
+  opacity: 0.3;
+}
+
+.reader-paragraph {
+  margin-bottom: var(--paragraph-spacing);
 }

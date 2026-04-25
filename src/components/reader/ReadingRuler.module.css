@@ -1,0 +1,12 @@
+.ruler {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background: rgba(0, 113, 227, 0.15);
+  border-top: 1px solid rgba(0, 113, 227, 0.3);
+  border-bottom: 1px solid rgba(0, 113, 227, 0.3);
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.05s linear;
+}

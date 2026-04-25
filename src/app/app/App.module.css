@@ -1,0 +1,29 @@
+.appContainer {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--background);
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.readerWrapper {
+  flex: 1;
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .mainContent {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  
+  .readerWrapper {
+    flex: none;
+  }
+}
