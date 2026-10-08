@@ -19,8 +19,8 @@ export function CTACards() {
   return (
     <section className={styles.ctaCards}>
       <div className={styles.sectionHeader}>
-        <h2>Ready to transform your reading?</h2>
-        <p>Choose your entry point and start reading with clarity today.</p>
+        <h2>Ready to analyze smarter?</h2>
+        <p>Choose your entry point and start turning raw text into clear insight.</p>
       </div>
       
       <div className={styles.ctaGrid}>
@@ -35,8 +35,8 @@ export function CTACards() {
           >
             <div className={styles.cardIcon}><BookOpen size={32} /></div>
             <div className={styles.cardContent}>
-              <h3>Open Reader</h3>
-              <p>Experience the most advanced adaptive typography system. Perfect for articles, books, and long-form content.</p>
+              <h3>Open Analyzer</h3>
+              <p>Paste any article, notes, or draft and convert it into summaries, highlights, and structured insights.</p>
               <div className={styles.cardAction}>
                 Launch Workspace <ArrowRight size={18} />
               </div>
@@ -56,7 +56,7 @@ export function CTACards() {
             <div className={styles.cardIcon}><Sparkles size={32} /></div>
             <div className={styles.cardContent}>
               <h3>Create Account</h3>
-              <p>Save your presets, sync across devices, and unlock the full AI toolkit. Join 10k+ focused readers.</p>
+              <p>Save your analysis presets, organize projects, and unlock the full AI toolkit for faster understanding.</p>
               <div className={styles.cardAction}>
                 Join Lucida AI <ArrowRight size={18} />
               </div>

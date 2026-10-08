@@ -42,63 +42,54 @@
   letter-spacing: -0.05em;
 }
 
-.navLinks {
-  display: flex;
-  gap: 2.5rem;
-}
-
-.navLinks a {
-  font-size: 0.9375rem;
+.infoLink {
+  margin-left: auto;
+  color: #526052;
+  font-size: 0.9rem;
   font-weight: 600;
-  color: #64748b;
   text-decoration: none;
-  position: relative;
-  transition: color 0.2s;
+  text-underline-offset: 4px;
 }
 
-.navLinks a:hover, .navLinks a.active {
+.infoLink:hover {
   color: var(--foreground);
+  text-decoration: underline;
 }
 
-.navLinks a.active::after {
-  content: '';
-  position: absolute;
-  bottom: -30px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--accent);
+.infoLink:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.getStartedLink {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 22px;
+  padding: 0 14px;
+  border-radius: 6px;
+  background: #26382e;
+  color: #fff;
+  font-size: 0.86rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.getStartedLink:hover {
+  background: #34483b;
+}
+
+.getStartedLink:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .actions {
   display: flex;
   align-items: center;
   gap: 1.5rem;
-}
-
-.loginLink {
-  font-size: 0.9375rem;
-  font-weight: 700;
-  color: var(--foreground);
-  text-decoration: none;
-}
-
-.launchBtn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.85rem 1.75rem;
-  background: var(--foreground);
-  color: white;
-  border-radius: 30px;
-  font-weight: 700;
-  font-size: 0.9375rem;
-  text-decoration: none;
-  transition: transform 0.2s;
-}
-
-.launchBtn:hover {
-  transform: translateY(-2px);
 }
 
 .appProfile {
@@ -118,4 +109,34 @@
   background: #10b981;
   border-radius: 50%;
   box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+@media (max-width: 760px) {
+  .container {
+    padding-inline: 16px;
+  }
+
+  .logo {
+    gap: 0.5rem;
+  }
+
+  .logoText {
+    font-size: 1.15rem;
+  }
+
+  .infoLink {
+    font-size: 0.82rem;
+  }
+
+  .getStartedLink {
+    min-height: 38px;
+    margin-left: 12px;
+    padding-inline: 11px;
+    font-size: 0.8rem;
+  }
+
+  .appProfile {
+    padding-inline: 8px;
+    font-size: 0.75rem;
+  }
 }

@@ -1,53 +1,28 @@
-"use client";
-
-import React from 'react';
-import Link from 'next/link';
-import styles from './Landing.module.css';
-import { ArrowRight, Zap, Target, Sliders, Check, Sparkles } from 'lucide-react';
-import { motion } from 'framer-motion';
-
-import HeroVisualization from './HeroVisualization';
-import { ProcessFlow as HowItWorks } from './ProcessFlow';
-import { CTACards } from './CTACards';
-
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6 }
-};
-
-const stagger = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
-};
+import Link from "next/link";
+import { ArrowRight, FileText, ListChecks, Tags } from "lucide-react";
+import styles from "./Landing.module.css";
+import HeroVisualization from "./HeroVisualization";
 
 export function Hero() {
   return (
     <section className={styles.hero}>
-      <motion.div 
-        className={styles.heroContent}
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        <span className={styles.badge}>Adaptive Reading System</span>
-        <h1>Read Smarter.<br />Not Harder.</h1>
+      <div className={styles.heroContent}>
+        <span className={styles.badge}>Make reading feel manageable</span>
+        <h1>Long text,<br />made clearer.</h1>
         <p>
-          Lucida X optimizes typography in real-time to match your cognitive profile. 
-          Enhance focus, improve comprehension, and reduce reading fatigue.
+          Paste in something you need to read. Get a short summary, the main
+          points, and a quick overview—without signing up.
         </p>
         <div className={styles.heroBtns}>
           <Link href="/app" className={styles.primaryBtn}>
-            Start Reading <ArrowRight size={18} />
+            Try it with your text <ArrowRight size={18} />
           </Link>
-          <Link href="#features" className={styles.secondaryBtn}>
-            How it works
+          <Link href="#how-it-works" className={styles.secondaryBtn}>
+            See how it works
           </Link>
         </div>
-      </motion.div>
+        <p className={styles.heroNote}>Free to try · Your text stays in your browser</p>
+      </div>
       <div className={styles.heroImage}>
         <HeroVisualization />
       </div>
@@ -55,72 +30,79 @@ export function Hero() {
   );
 }
 
+export function HowItWorks() {
+  const steps = [
+    {
+      number: "01",
+      title: "Add your text",
+      description: "Paste text into the workspace. Nothing to upload or format.",
+    },
+    {
+      number: "02",
+      title: "Run an analysis",
+      description: "Get an extractive summary, key sentences, topics, and stats.",
+    },
+    {
+      number: "03",
+      title: "Explore the results",
+      description: "Switch between views, then go back to the source whenever you like.",
+    },
+  ];
+
+  return (
+    <section id="how-it-works" className={styles.howItWorks}>
+      <div className={styles.sectionHeader}>
+        <span className={styles.sectionEyebrow}>How to use it</span>
+        <h2>Start in three simple steps</h2>
+      </div>
+      <div className={styles.stepGrid}>
+        {steps.map((step) => (
+          <article className={styles.stepCard} key={step.number}>
+            <span className={styles.stepNumber}>{step.number}</span>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export function Features() {
   const features = [
-    { title: "Dynamic Typography", desc: "Instantly adjust letter and word spacing to match your visual processing speed.", icon: <Sliders size={24} /> },
-    { title: "Focus Engine", desc: "Highlight one word at a time to eliminate distractions and maintain fixation.", icon: <Target size={24} /> },
-    { title: "Read-Aloud Sync", desc: "Synchronized audio and visual signals for maximum comprehension and retention.", icon: <Zap size={24} /> },
-    { title: "Neurodiverse First", desc: "Built-in support for Dyslexia, ADHD, and other cognitive processing profiles.", icon: <Check size={24} /> }
+    {
+      title: "A quick summary",
+      description: "A short selection of the most informative sentences from your text.",
+      icon: <FileText size={20} />,
+    },
+    {
+      title: "Key sentences",
+      description: "See the sentences that carry the most repeated ideas and terms.",
+      icon: <ListChecks size={20} />,
+    },
+    {
+      title: "Topics and stats",
+      description: "Check common terms, word count, paragraph count, and reading time.",
+      icon: <Tags size={20} />,
+    },
   ];
 
   return (
     <section id="features" className={styles.features}>
       <div className={styles.sectionHeader}>
-        <h2>Engineered for Clarity</h2>
-        <p>Tools designed to support neurodiverse readers and high-performance professionals.</p>
+        <span className={styles.sectionEyebrow}>What you get</span>
+        <h2>Useful detail, without the noise.</h2>
       </div>
-      <motion.div 
-        className={styles.featureGrid}
-        variants={stagger}
-        initial="initial"
-        whileInView="animate"
-        viewport={{ once: true }}
-      >
-        {features.map((f, i) => (
-          <motion.div key={i} className={styles.featureCard} variants={fadeInUp}>
-            <div className={styles.featureIcon}>{f.icon}</div>
-            <h3>{f.title}</h3>
-            <p>{f.desc}</p>
-          </motion.div>
+      <div className={styles.featureGrid}>
+        {features.map((feature) => (
+          <article className={styles.featureCard} key={feature.title}>
+            <div className={styles.featureIcon}>{feature.icon}</div>
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </article>
         ))}
-      </motion.div>
+      </div>
+      <p className={styles.privacyNote}>Your text stays on your device while it is analyzed.</p>
     </section>
   );
 }
-
-export { HowItWorks };
-
-export function Roadmap() {
-  const futureFeatures = [
-    { title: "AI Summarization", desc: "Condense long articles into key takeaways instantly.", status: "Live Beta", icon: <Sparkles size={24} /> },
-    { title: "Bionic Reading", desc: "Guide your eyes with bolded fixation points for 2x speed.", status: "Coming Soon", icon: <Zap size={24} /> },
-    { title: "Smart Simplify", desc: "Translate complex jargon into plain English automatically.", status: "In Development", icon: <Target size={24} /> }
-  ];
-
-  return (
-    <section className={styles.roadmap}>
-      <div className={styles.sectionHeader}>
-        <h2>The Future of Reading</h2>
-        <p>We're building the most advanced cognitive assistance platform on the planet.</p>
-      </div>
-      <motion.div 
-        className={styles.roadmapGrid}
-        variants={stagger}
-        initial="initial"
-        whileInView="animate"
-        viewport={{ once: true }}
-      >
-        {futureFeatures.map((f, i) => (
-          <motion.div key={i} className={styles.roadmapCard} variants={fadeInUp}>
-            <div className={styles.status}>{f.status}</div>
-            <div className={styles.roadmapIcon}>{f.icon}</div>
-            <h3>{f.title}</h3>
-            <p>{f.desc}</p>
-          </motion.div>
-        ))}
-      </motion.div>
-    </section>
-  );
-}
-
-export { CTACards };

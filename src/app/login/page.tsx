@@ -26,7 +26,7 @@ export default function LoginPage() {
             <span>Lucida</span>
           </Link>
           <h2>Welcome Back</h2>
-          <p>Sign in to your adaptive reading environment</p>
+          <p>Sign in to your smart text analysis workspace</p>
         </div>
 
         <form className={styles.form} onSubmit={handleLogin}>

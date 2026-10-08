@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: 16px;
   padding: 24px;
-  background-color: #002f87; /* Deep Cobalt Base */
+  background-color: #26382e;
   height: 100%;
   overflow-y: auto;
   color: #e0e7ff; /* Light indigo text */
@@ -245,4 +245,41 @@
 .presetItem:hover {
   background: rgba(255, 255, 255, 0.2);
   border-color: #ffffff;
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    height: auto;
+    max-height: 290px;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 14px;
+  }
+
+  .studyFocus {
+    min-width: 160px;
+    justify-content: center;
+  }
+
+  .section {
+    min-width: 230px;
+    flex: 0 0 230px;
+    padding: 0 14px 4px;
+    border: 0;
+    border-right: 1px solid rgba(255, 255, 255, 0.15);
+  }
+}
+
+@media (max-width: 640px) {
+  .sidebar {
+    max-height: 250px;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .section {
+    min-width: 215px;
+    flex-basis: 215px;
+  }
 }

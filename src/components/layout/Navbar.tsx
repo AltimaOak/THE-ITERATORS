@@ -3,7 +3,6 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Sparkles, ArrowRight } from 'lucide-react';
 import styles from './Navbar.module.css';
 import LucidaLogo from './LucidaLogo';
 
@@ -18,30 +17,24 @@ export default function Navbar() {
           <div className={styles.logoIcon}>
             <LucidaLogo />
           </div>
-          <span className={styles.logoText}>Lucida X</span>
+          <span className={styles.logoText}>Lucida Analyzer</span>
         </Link>
 
-        <div className={styles.navLinks}>
-          <Link href="/" className={pathname === '/' ? styles.active : ''}>Overview</Link>
-          <Link href="/app" className={isApp ? styles.active : ''}>Workspace</Link>
-          <Link href="#features">Capabilities</Link>
-        </div>
+        <Link href="/#features" className={styles.infoLink}>
+          What you get
+        </Link>
+        {!isApp && (
+          <Link href="/app" className={styles.getStartedLink}>
+            Get started
+          </Link>
+        )}
 
-        <div className={styles.actions}>
-          {isApp ? (
-            <div className={styles.appProfile}>
-              <div className={styles.statusDot} />
-              <span>Live Workspace</span>
-            </div>
-          ) : (
-            <>
-              <Link href="/login" className={styles.loginLink}>Login</Link>
-              <Link href="/app" className={styles.launchBtn}>
-                Launch App <ArrowRight size={16} />
-              </Link>
-            </>
-          )}
-        </div>
+        {isApp && (
+          <div className={styles.appProfile}>
+            <div className={styles.statusDot} />
+            <span>Live Workspace</span>
+          </div>
+        )}
       </div>
     </nav>
   );

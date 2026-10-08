@@ -1,6 +1,5 @@
 import Navbar from "@/components/layout/Navbar";
-import { Hero, Features, HowItWorks, Roadmap, CTACards } from "@/components/landing/Landing";
-import { CTACards as InteractiveCTACards } from "@/components/landing/CTACards";
+import { Hero, Features, HowItWorks } from "@/components/landing/Landing";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -8,22 +7,15 @@ export default function Home() {
     <main className={styles.main}>
       <Navbar />
       <Hero />
-      <Features />
       <HowItWorks />
-      <Roadmap />
-      <InteractiveCTACards />
+      <Features />
       <footer className={styles.footer}>
         <div className={styles.footerContent}>
           <div className={styles.footerLogo}>
             <div className={styles.logoIcon}>L</div>
-            <span>Lucida</span>
+            <span>Lucida Analyzer</span>
           </div>
-          <p>© 2026 Lucida Adaptive Systems. All rights reserved.</p>
-          <div className={styles.footerLinks}>
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
-            <a href="#">Contact</a>
-          </div>
+          <p>Simple text analysis, right in your browser.</p>
         </div>
       </footer>
     </main>

@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useTypography } from '@/context/TypographyContext';
 import { useHighlightEngine } from '@/hooks/useHighlightEngine';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
@@ -9,33 +8,31 @@ import { useSpeech } from '@/hooks/useSpeech';
 import ReadingRuler from './ReadingRuler';
 import ReadingInsights from './ReadingInsights';
 import styles from './Reader.module.css';
-import { Play, Pause, RotateCcw, Sliders, Type, Palette, MousePointer2, Sparkles, X, ChevronRight, Loader2, Volume2, ChevronLeft, Layout, List, FileText, Table as TableIcon, GitBranch, Eye, HelpCircle, Share2, Check } from 'lucide-react';
+import { Play, Pause, RotateCcw, MousePointer2, Volume2, ChevronLeft, ChevronRight, List, FileText, Table as TableIcon, GitBranch, Eye, Share2, Check } from 'lucide-react';
+import { analyzeText, type TextAnalysis } from '@/lib/textAnalysis';
 
-type ViewMode = 'original' | 'summary' | 'bullets' | 'visual' | 'table' | 'explain';
+type ViewMode = 'original' | 'summary' | 'bullets' | 'visual' | 'table';
+
+const sampleText =
+  "Community gardens bring neighbors together while making better use of empty spaces. " +
+  "In one local survey, residents said gardens gave them fresh produce and a place to meet. " +
+  "The gardens also helped children learn where food comes from. " +
+  "However, volunteers noted that reliable water access and shared maintenance plans are important for keeping a garden healthy.";
 
 export default function Reader() {
   const [inputText, setInputText] = useState("");
-  const [isSummarizing, setIsSummarizing] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('original');
   const [highlightMode, setHighlightMode] = useState<'auto' | 'manual'>('auto');
-  const [aiData, setAiData] = useState<{
-    summary?: string;
-    bullets?: string[];
-    table?: string[][];
-    visual?: { type: 'flow' | 'cards', nodes: any[] };
-    explanation?: { concept: string, context: string, significance: string };
-  } | null>(null);
+  const [analysis, setAnalysis] = useState<TextAnalysis | null>(null);
   
-  const { settings, updateSetting } = useTypography();
-  const [showToolbar, setShowToolbar] = useState(false);
-  const [toolbarPos, setToolbarPos] = useState({ x: 0, y: 0 });
-  const { isSpeaking, speak, stop, pause: pauseSpeech, resume: resumeSpeech } = useSpeech();
+  const { settings } = useTypography();
+  const { isSpeaking, speak, stop } = useSpeech();
   
   // Tokenize text into paragraphs and words
   const tokenizedData = useMemo(() => {
     if (!inputText) return [];
-    const cleanText = inputText.replace(/<[^>]*>?/gm, '').trim();
+    const cleanText = inputText.trim();
     const paragraphs = cleanText.split(/\n+/).filter(p => p.trim().length > 0);
     
     let globalWordIndex = 0;
@@ -58,7 +55,11 @@ export default function Reader() {
   useKeyboardShortcuts(
     () => {
       if (highlightMode === 'auto') {
-        isPlaying ? pause() : start();
+        if (isPlaying) {
+          pause();
+        } else {
+          start();
+        }
       }
     },
     reset
@@ -66,38 +67,14 @@ export default function Reader() {
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(e.target.value);
-    setAiData(null);
+    setAnalysis(null);
+    setViewMode('original');
   };
 
-  const handleAIAction = async (mode: ViewMode) => {
-    if (!inputText || inputText.trim().length < 10) return;
-    setIsSummarizing(true);
-    setViewMode(mode);
-    
-    // Simulate AI Processing
-    const processingTime = 1500 + Math.random() * 1000;
-    await new Promise(resolve => setTimeout(resolve, processingTime));
-    
-    if (mode === 'summary') {
-      setAiData(prev => ({ ...prev, summary: "This text explores the convergence of AI and human cognition through adaptive reading interfaces that prioritize focus and comprehension." }));
-    } else if (mode === 'bullets') {
-      setAiData(prev => ({ ...prev, bullets: ["Adaptive typography reduces load", "AI simplifies complex structures", "Multi-modal sync improves retention"] }));
-    } else if (mode === 'table') {
-      setAiData(prev => ({ ...prev, table: [["Feature", "Benefit"], ["Typography", "Focus"], ["AI Assist", "Understanding"], ["Visuals", "Retention"]] }));
-    } else if (mode === 'visual') {
-      setAiData(prev => ({ ...prev, visual: { 
-        type: 'flow', 
-        nodes: [{id: 1, text: 'Input'}, {id: 2, text: 'AI Analysis'}, {id: 3, text: 'Visualization'}] 
-      }}));
-    } else if (mode === 'explain') {
-      setAiData(prev => ({ ...prev, explanation: {
-        concept: "Adaptive Cognitive Scaffolding",
-        context: "The intersection of neuropsychology and human-computer interaction.",
-        significance: "By dynamically altering visual signals, we reduce the cognitive load required to translate symbols into meaning, facilitating deeper conceptual encoding."
-      }}));
-    }
-    
-    setIsSummarizing(false);
+  const handleAnalyze = () => {
+    if (!inputText.trim()) return;
+    setAnalysis(analyzeText(inputText));
+    setViewMode('summary');
   };
 
   const handleReadAloud = () => {
@@ -120,21 +97,6 @@ export default function Reader() {
     });
   };
 
-  const handleSelection = (e: React.MouseEvent) => {
-    const selection = window.getSelection();
-    if (selection && selection.toString().length > 0) {
-      const range = selection.getRangeAt(0);
-      const rect = range.getBoundingClientRect();
-      setToolbarPos({
-        x: rect.left + rect.width / 2,
-        y: rect.top - 50
-      });
-      setShowToolbar(true);
-    } else {
-      setShowToolbar(false);
-    }
-  };
-
   // Ensure highlight engine pauses if speech starts from elsewhere
   useEffect(() => {
     if (isSpeaking && isPlaying) {
@@ -146,30 +108,65 @@ export default function Reader() {
     <div className={styles.container}>
       <div className={styles.inputPane}>
         <div className={styles.paneHeader}>
-          <h3>Input Text</h3>
+          <h3>Your text</h3>
+          <span className={styles.wordCount}>{totalWords.toLocaleString()} words</span>
         </div>
+        <p className={styles.inputHelp}>
+          Paste an article, email, or notes below. We’ll pick out the main ideas.
+        </p>
         <textarea
           className={styles.textarea}
-          placeholder="Paste your text here..."
+          aria-label="Text to analyze"
+          placeholder="Tap here and paste your text..."
           value={inputText}
           onChange={handleTextChange}
         />
+        {!inputText.trim() && (
+          <button
+            type="button"
+            className={styles.sampleBtn}
+            onClick={() => {
+              setInputText(sampleText);
+              setAnalysis(analyzeText(sampleText));
+              setViewMode('summary');
+            }}
+          >
+            Try with an example
+          </button>
+        )}
         
         <div className={styles.bottomControls}>
-          <div className={styles.modeToggle}>
-            <button 
-              className={highlightMode === 'auto' ? styles.active : ''} 
+          <div className={styles.readingHelp}>
+            <span>Word-by-word reading</span>
+            <span className={styles.modeToggle}>
+            <button
+              type="button"
+              aria-pressed={highlightMode === 'auto'}
+              title="Highlight each word automatically"
+              className={highlightMode === 'auto' ? styles.active : ''}
               onClick={() => setHighlightMode('auto')}
             >
-              Auto
+              Follow along
             </button>
-            <button 
-              className={highlightMode === 'manual' ? styles.active : ''} 
+            <button
+              type="button"
+              aria-pressed={highlightMode === 'manual'}
+              title="Move through the text one word at a time"
+              className={highlightMode === 'manual' ? styles.active : ''}
               onClick={() => setHighlightMode('manual')}
             >
-              Manual
+              One word at a time
             </button>
+            </span>
           </div>
+          <button
+            type="button"
+            className={styles.analyzeBtn}
+            onClick={handleAnalyze}
+            disabled={!inputText.trim()}
+          >
+            Find the main ideas
+          </button>
         </div>
       </div>
 
@@ -177,139 +174,95 @@ export default function Reader() {
         <div className={styles.centeredColumn}>
           <div className={styles.paneHeader}>
             <div className={styles.headerTitle}>
-              <h3>Lucida AI Reader</h3>
+              <h3>{viewMode === 'original' ? 'Read your text' : 'Your results'}</h3>
             </div>
             <div className={styles.controls}>
               {highlightMode === 'manual' && (
                 <>
-                  <button onClick={() => jumpTo(Math.max(0, currentIndex - 1))} className={styles.controlBtn}>
+                  <button aria-label="Previous word" onClick={() => jumpTo(Math.max(0, currentIndex - 1))} className={styles.controlBtn}>
                     <ChevronLeft size={18} />
                   </button>
-                  <button onClick={() => jumpTo(currentIndex + 1)} className={styles.controlBtn}>
+                  <button aria-label="Next word" onClick={() => jumpTo(currentIndex + 1)} className={styles.controlBtn}>
                     <ChevronRight size={18} />
                   </button>
                 </>
               )}
               {highlightMode === 'auto' && (
-                <button onClick={isPlaying ? pause : start} className={styles.controlBtn}>
+                <button aria-label={isPlaying ? "Pause reading" : "Start reading"} onClick={isPlaying ? pause : start} className={styles.controlBtn}>
                   {isPlaying ? <Pause size={18} /> : <Play size={18} />}
                 </button>
               )}
-              <button onClick={handleReadAloud} className={`${styles.controlBtn} ${isSpeaking ? styles.active : ''}`}>
+              <button aria-label={isSpeaking ? "Stop reading aloud" : "Read aloud"} onClick={handleReadAloud} className={`${styles.controlBtn} ${isSpeaking ? styles.active : ''}`}>
                 <Volume2 size={18} />
               </button>
-              <button onClick={handleShare} className={`${styles.controlBtn} ${isSharing ? styles.shareActive : ''}`}>
+              <button title="Copy a link to these reading settings" aria-label={isSharing ? "Settings link copied" : "Copy settings link"} onClick={handleShare} className={`${styles.controlBtn} ${isSharing ? styles.shareActive : ''}`}>
                 {isSharing ? <Check size={18} /> : <Share2 size={18} />}
               </button>
-              <button onClick={reset} className={styles.controlBtn}><RotateCcw size={18} /></button>
-              <button 
-                onClick={() => handleAIAction('summary')} 
-                className={`${styles.aiBtn} ${isSummarizing ? styles.aiBtnLoading : ''}`}
-                disabled={isSummarizing || !inputText}
-              >
-                <Sparkles size={18} />
-                <span>AI toolkit</span>
-              </button>
+              <button title="Start reading from the beginning" aria-label="Reset reading position" onClick={reset} className={styles.controlBtn}><RotateCcw size={18} /></button>
             </div>
           </div>
 
           <div className={styles.viewTabs}>
-            <button className={viewMode === 'original' ? styles.activeTab : ''} onClick={() => setViewMode('original')}><Eye size={16} /> Original</button>
-            <button className={viewMode === 'summary' ? styles.activeTab : ''} onClick={() => handleAIAction('summary')}><FileText size={16} /> Summary</button>
-            <button className={viewMode === 'bullets' ? styles.activeTab : ''} onClick={() => handleAIAction('bullets')}><List size={16} /> Bullets</button>
-            <button className={viewMode === 'visual' ? styles.activeTab : ''} onClick={() => handleAIAction('visual')}><GitBranch size={16} /> Visual</button>
-            <button className={viewMode === 'table' ? styles.activeTab : ''} onClick={() => handleAIAction('table')}><TableIcon size={16} /> Table</button>
-            <button className={viewMode === 'explain' ? styles.activeTab : ''} onClick={() => handleAIAction('explain')}><HelpCircle size={16} /> Explain</button>
+            <button aria-pressed={viewMode === 'original'} className={viewMode === 'original' ? styles.activeTab : ''} onClick={() => setViewMode('original')}><Eye size={16} /> Your text</button>
+            <button aria-pressed={viewMode === 'summary'} className={viewMode === 'summary' ? styles.activeTab : ''} onClick={() => setViewMode('summary')} disabled={!analysis}><FileText size={16} /> In short</button>
+            <button aria-pressed={viewMode === 'bullets'} className={viewMode === 'bullets' ? styles.activeTab : ''} onClick={() => setViewMode('bullets')} disabled={!analysis}><List size={16} /> Main points</button>
+            <button aria-pressed={viewMode === 'visual'} className={viewMode === 'visual' ? styles.activeTab : ''} onClick={() => setViewMode('visual')} disabled={!analysis}><GitBranch size={16} /> Frequent words</button>
+            <button aria-pressed={viewMode === 'table'} className={viewMode === 'table' ? styles.activeTab : ''} onClick={() => setViewMode('table')} disabled={!analysis}><TableIcon size={16} /> Text details</button>
           </div>
 
-          <ReadingInsights wordCount={totalWords} currentIndex={currentIndex} isActive={isPlaying || isSpeaking} />
+          {viewMode === 'original' && <ReadingInsights wordCount={totalWords} currentIndex={currentIndex} isActive={isPlaying || isSpeaking} />}
           
           <div 
             className={`${styles.content} reader-content ${settings.focusMode ? styles.focusMode : ''} ${styles.paperTexture}`}
-            onMouseUp={handleSelection}
           >
             <ReadingRuler />
             
-            {showToolbar && (
-              <motion.div 
-                className={styles.miniToolbar}
-                initial={{ opacity: 0, scale: 0.9, y: 10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                style={{ top: toolbarPos.y, left: toolbarPos.x }}
-              >
-                <button onClick={() => handleAIAction('explain')} title="Explain Selection"><HelpCircle size={16} /></button>
-                <button onClick={() => handleAIAction('summary')} title="Summarize Selection"><Sparkles size={16} /></button>
-                <div className={styles.divider} />
-                <button onClick={() => setShowToolbar(false)}><X size={16} /></button>
-              </motion.div>
-            )}
-            {isSummarizing && (
-              <div className={styles.aiLoading}>
-                <Loader2 size={32} className={styles.spin} />
-                <p>AI is transforming your text into understanding...</p>
-              </div>
-            )}
-
-            {!isSummarizing && viewMode === 'summary' && aiData?.summary && (
+            {viewMode === 'summary' && analysis && (
               <div className={styles.outputView}>
-                <h3>Concise Summary</h3>
-                <p>{aiData.summary}</p>
+                <h3>In short</h3>
+                <p>{analysis.summary || "There is not enough sentence-level text to create a summary."}</p>
+                <p className={styles.methodNote}>A shorter version made from sentences in your text.</p>
               </div>
             )}
 
-            {!isSummarizing && viewMode === 'bullets' && aiData?.bullets && (
+            {viewMode === 'bullets' && analysis && (
               <div className={styles.outputView}>
-                <h3>Key Takeaways</h3>
-                <ul>{aiData.bullets.map((b, i) => <li key={i}><ChevronRight size={16}/>{b}</li>)}</ul>
+                <h3>Main points</h3>
+                <ul>{analysis.keyPoints.map((point, i) => <li key={`${i}-${point}`}>{point}</li>)}</ul>
+                <p className={styles.methodNote}>These sentences include words that appear often in your text.</p>
               </div>
             )}
 
-            {!isSummarizing && viewMode === 'table' && aiData?.table && (
+            {viewMode === 'table' && analysis && (
               <div className={styles.tableView}>
                 <table>
-                  <thead>
-                    <tr>{aiData.table[0].map((h, i) => <th key={i}>{h}</th>)}</tr>
-                  </thead>
                   <tbody>
-                    {aiData.table.slice(1).map((row, i) => (
-                      <tr key={i}>{row.map((cell, ci) => <td key={ci}>{cell}</td>)}</tr>
+                    {analysis.stats.map(({ label, value }) => (
+                      <tr key={label}><th scope="row">{label}</th><td>{value}</td></tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             )}
 
-            {!isSummarizing && viewMode === 'explain' && aiData?.explanation && (
-              <div className={styles.explainView}>
-                <div className={styles.explainSection}>
-                  <div className={styles.explainLabel}>Core Concept</div>
-                  <p>{aiData.explanation.concept}</p>
-                </div>
-                <div className={styles.explainSection}>
-                  <div className={styles.explainLabel}>Contextual Layer</div>
-                  <p>{aiData.explanation.context}</p>
-                </div>
-                <div className={styles.explainSection}>
-                  <div className={styles.explainLabel}>Significance</div>
-                  <p>{aiData.explanation.significance}</p>
-                </div>
-              </div>
-            )}
-
-            {!isSummarizing && viewMode === 'visual' && aiData?.visual && (
+            {viewMode === 'visual' && analysis && (
               <div className={styles.visualView}>
-                {aiData.visual.nodes.map((n, i) => (
-                  <React.Fragment key={n.id}>
-                    <div className={styles.nodeCard}>{n.text}</div>
-                    {i < (aiData.visual?.nodes.length || 0) - 1 && <div className={styles.connector}><ChevronRight /></div>}
-                  </React.Fragment>
+                {analysis.topics.map(({ term, count }) => (
+                  <div className={styles.topicChip} key={term}>
+                    {term}<span>{count}</span>
+                  </div>
                 ))}
+                {!analysis.topics.length && <p>No recurring topics found in this text.</p>}
               </div>
             )}
 
-            {viewMode === 'original' && !isSummarizing && (
+            {viewMode === 'original' && (
               tokenizedData.length === 0 ? (
-                <div className={styles.placeholder}><MousePointer2 size={48} /><p>Start your reading journey here</p></div>
+                <div className={styles.placeholder}>
+                  <MousePointer2 size={32} />
+                  <p>Your text will appear here</p>
+                  <span>Paste your text on the left, then choose “Find the main ideas”.</span>
+                </div>
               ) : (
                 tokenizedData.map(paragraph => {
                   const isParagraphActive = paragraph.words.some(w => w.index === currentIndex);

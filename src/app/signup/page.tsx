@@ -26,7 +26,7 @@ export default function SignupPage() {
             <span>Lucida</span>
           </Link>
           <h2>Create Account</h2>
-          <p>Join the future of cognitive reading</p>
+          <p>Join the future of smart text analysis</p>
         </div>
 
         <form className={styles.form} onSubmit={handleSignup}>

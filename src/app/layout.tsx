@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "Lucida | Adaptive Reading for Focus & Accessibility",
-  description: "A premium SaaS reading system designed to optimize focus and improve cognitive accessibility through adaptive typography.",
+  title: "Lucida | Smart Text Analyzer for Insights & Clarity",
+  description: "A private, browser-based text analyzer for extractive summaries, key sentences, recurring terms, and document statistics.",
 };
 
 import { Providers } from "./Providers";
